@@ -1,23 +1,58 @@
-import logo from './logo.svg';
+import TodoList from './components/TodosList';
 import './App.css';
+import { useState } from 'react';
 
 function App() {
+
+  const [todoList, setTodoList] = useState([]);
+  const [buttonText, setButtonText] = useState('Add');
+  const [todoText, setTodoText] = useState('');
+  const [placeholder, setPlaceholder] = useState('Enter your Todo Here...');
+
+  const updateButtonText = () =>{
+    if(buttonText==='Add'){
+      setPlaceholder('Update your Todo or it will be updated as empty...');
+      setButtonText('Update');
+    }
+    else{
+      setPlaceholder('Enter your Todo Here');
+      setButtonText('Add');
+    }
+  }
+
+  const populateTodo = () => {
+    const text = todoText.trim();
+    if(text) {
+      const newTodoList = [...todoList];
+      newTodoList.push(text);
+      setTodoList(newTodoList);
+      setTodoText('');
+      if(buttonText == 'Update') updateButtonText();
+    }
+    else{
+      alert('Fill the Text Box correctly');
+      setTodoText('');
+    }
+  }
+  const updateTodo = (id) =>{
+    setTodoText(todoList[id]);
+    updateButtonText();
+    deleteTodo(id);
+  }
+  const deleteTodo = (id) =>{
+    const newTodoList = [...todoList];
+    newTodoList.splice(id, 1);
+    setTodoList(newTodoList);
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Todos List</h1>
+      <div className='form-group'>
+        <input type="text" id="todo-editor" onChange={(e)=>{setTodoText(e.target.value)}} value={todoText} placeholder={placeholder} />
+        <button onClick={populateTodo}>{buttonText}</button>
+      </div>
+      <TodoList className='todo-list' list={todoList} updateTodo={updateTodo} deleteTodo={deleteTodo} />
     </div>
   );
 }
