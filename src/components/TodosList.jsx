@@ -1,9 +1,9 @@
 import TodoElement from './TodoElement';
 
-function TodosList(props) {
+function TodosList({list, updateTodo, deleteTodo}) {
     return (
         <ul className='todo-list'>
-           { props.list.map( (todo, index) => <TodoElement key={index+1} id={index} text={todo} update={props.updateTodo} delete={props.deleteTodo} /> )}
+           { list.map( (todo, index) => <TodoElement key={index+1} id={index} text={todo} onUpdate={updateTodo} onDelete={deleteTodo} /> )}
         </ul>
     );
 }

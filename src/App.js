@@ -3,8 +3,8 @@ import './App.css';
 import { useState } from 'react';
 
 function App() {
-  let localStorage = localStorage.getItem("TodoList") || [];
-  const [todoList, setTodoList] = useState(localStorage);
+  let list = JSON.parse(localStorage.getItem("TodoList")) || [];
+  const [todoList, setTodoList] = useState(list);
   const [buttonText, setButtonText] = useState('Add');
   const [todoText, setTodoText] = useState('');
   const [placeholder, setPlaceholder] = useState('Enter your Todo Here...');
@@ -26,8 +26,9 @@ function App() {
       const newTodoList = [...todoList];
       newTodoList.push(text);
       setTodoList(newTodoList);
+      localStorage.setItem("TodoList", JSON.stringify(newTodoList));
       setTodoText('');
-      if(buttonText == 'Update') updateButtonText();
+      if(buttonText === 'Update') updateButtonText();
     }
     else{
       alert('Fill the Text Box correctly');
@@ -43,6 +44,7 @@ function App() {
     const newTodoList = [...todoList];
     newTodoList.splice(id, 1);
     setTodoList(newTodoList);
+    localStorage.setItem("TodoList", JSON.stringify(newTodoList));
   }
 
   return (
