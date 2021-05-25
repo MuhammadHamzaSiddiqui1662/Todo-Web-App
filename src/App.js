@@ -3,8 +3,8 @@ import './App.css';
 import { useState } from 'react';
 
 function App() {
-
-  const [todoList, setTodoList] = useState([]);
+  let localStorage = localStorage.getItem("TodoList") || [];
+  const [todoList, setTodoList] = useState(localStorage);
   const [buttonText, setButtonText] = useState('Add');
   const [todoText, setTodoText] = useState('');
   const [placeholder, setPlaceholder] = useState('Enter your Todo Here...');
